@@ -137,6 +137,7 @@ final class LoadingMediaState: PlayerState {
                                            loadedAssetKeys: context.config.itemLoadedAssetKeys)
         startObservingItemStatus(item: item)
         context.player.replaceCurrentItem(with: item)
+        context.usedAVPlayerItem.insert(item)
         
         guard position == nil else { return }
         context.delegate?.playerContext(didCurrentTimeChange: context.currentTime)

@@ -3,8 +3,8 @@
 // ModernAVPlayer
 // Copyright (c) 2018 Raphael Ankierman <raphael.ankierman@radiofrance.com>
 //
-// PlayerMedia.swift
-// Created by raphael ankierman on 24/02/2018.
+// PlayerMediaItem.swift
+// Created by raphael ankierman on 17/11/2019.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,40 +27,15 @@
 import AVFoundation.AVPlayerItem
 
 ///
-/// `PlayerMedia` is a protocol use to create media player.
-///  By this way, `AVPlayerItem` is automatically created.
-///  If you want to load your custom `AVPlayerItem`, conform to `PlayerMediaItem`
+/// `PlayerMediaItem` is a protocol use to create media from an `AVPlayerItem`.
+///  You may want to cache item before loading in the player.
 ///
 
-// sourcery: AutoMockable
-public protocol PlayerMedia: CustomStringConvertible {
+public protocol PlayerMediaItem: PlayerMedia {
 
-    /// URL set to the AVURLAsset
-    var url: URL { get }
-
-    /// Type of the media
-    var type: MediaType { get }
-    
-    /// Asset options use by AVURLAsset
-    var assetOptions: [String: Any]? { get }
-
-    /// Returns stream media isLive parameter
-    func isLive() -> Bool
-
-    func getMetadata() -> PlayerMediaMetadata?
-    func setMetadata(_ metadata: PlayerMediaMetadata)
-}
-
-public extension PlayerMedia {
-    var description: String {
-        return "url: \(url.description) | type: \(type.description)"
-    }
-}
-
-public extension PlayerMedia {
-    func isLive() -> Bool {
-        guard case let MediaType.stream(isLive) = type, isLive
-            else { return false }
-        return true
-    }
+    ///
+    /// Item used by the player only once.
+    /// - Note: If item failed, a fresh new one is created
+    ///
+    var item: AVPlayerItem { get }
 }

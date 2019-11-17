@@ -800,6 +800,12 @@ open class PlayerContextMock: PlayerContext, Mock {
 	}
 	private var __p_state: (PlayerState)?
 
+    public var usedAVPlayerItem: Set<AVPlayerItem> {
+		get {	invocations.append(.p_usedAVPlayerItem_get); return __p_usedAVPlayerItem ?? givenGetterValue(.p_usedAVPlayerItem_get, "PlayerContextMock - stub value for usedAVPlayerItem was not defined") }
+		set {	invocations.append(.p_usedAVPlayerItem_set(.value(newValue))); __p_usedAVPlayerItem = newValue }
+	}
+	private var __p_usedAVPlayerItem: (Set<AVPlayerItem>)?
+
     public var currentTime: Double {
 		get {	invocations.append(.p_currentTime_get); return __p_currentTime ?? givenGetterValue(.p_currentTime_get, "PlayerContextMock - stub value for currentTime was not defined") }
 		@available(*, deprecated, message: "Using setters on readonly variables is deprecated, and will be removed in 3.1. Use Given to define stubbed property return value.")
@@ -894,6 +900,8 @@ open class PlayerContextMock: PlayerContext, Mock {
         case p_nowPlaying_get
         case p_plugins_get
         case p_state_get
+        case p_usedAVPlayerItem_get
+		case p_usedAVPlayerItem_set(Parameter<Set<AVPlayerItem>>)
         case p_currentTime_get
         case p_loopMode_get
 		case p_loopMode_set(Parameter<Bool>)
@@ -934,6 +942,8 @@ open class PlayerContextMock: PlayerContext, Mock {
             case (.p_nowPlaying_get,.p_nowPlaying_get): return true
             case (.p_plugins_get,.p_plugins_get): return true
             case (.p_state_get,.p_state_get): return true
+            case (.p_usedAVPlayerItem_get,.p_usedAVPlayerItem_get): return true
+			case (.p_usedAVPlayerItem_set(let left),.p_usedAVPlayerItem_set(let right)): return Parameter<Set<AVPlayerItem>>.compare(lhs: left, rhs: right, with: matcher)
             case (.p_currentTime_get,.p_currentTime_get): return true
             case (.p_loopMode_get,.p_loopMode_get): return true
 			case (.p_loopMode_set(let left),.p_loopMode_set(let right)): return Parameter<Bool>.compare(lhs: left, rhs: right, with: matcher)
@@ -964,6 +974,8 @@ open class PlayerContextMock: PlayerContext, Mock {
             case .p_nowPlaying_get: return 0
             case .p_plugins_get: return 0
             case .p_state_get: return 0
+            case .p_usedAVPlayerItem_get: return 0
+			case .p_usedAVPlayerItem_set(let newValue): return newValue.intValue
             case .p_currentTime_get: return 0
             case .p_loopMode_get: return 0
 			case .p_loopMode_set(let newValue): return newValue.intValue
@@ -1011,6 +1023,9 @@ open class PlayerContextMock: PlayerContext, Mock {
         public static func state(getter defaultValue: PlayerState?...) -> PropertyStub {
             return Given(method: .p_state_get, products: defaultValue.map({ StubProduct.return($0 as Any) }))
         }
+        public static func usedAVPlayerItem(getter defaultValue: Set<AVPlayerItem>...) -> PropertyStub {
+            return Given(method: .p_usedAVPlayerItem_get, products: defaultValue.map({ StubProduct.return($0 as Any) }))
+        }
         public static func currentTime(getter defaultValue: Double...) -> PropertyStub {
             return Given(method: .p_currentTime_get, products: defaultValue.map({ StubProduct.return($0 as Any) }))
         }
@@ -1048,6 +1063,8 @@ open class PlayerContextMock: PlayerContext, Mock {
         public static var nowPlaying: Verify { return Verify(method: .p_nowPlaying_get) }
         public static var plugins: Verify { return Verify(method: .p_plugins_get) }
         public static var state: Verify { return Verify(method: .p_state_get) }
+        public static var usedAVPlayerItem: Verify { return Verify(method: .p_usedAVPlayerItem_get) }
+		public static func usedAVPlayerItem(set newValue: Parameter<Set<AVPlayerItem>>) -> Verify { return Verify(method: .p_usedAVPlayerItem_set(newValue)) }
         public static var currentTime: Verify { return Verify(method: .p_currentTime_get) }
         public static var loopMode: Verify { return Verify(method: .p_loopMode_get) }
 		public static func loopMode(set newValue: Parameter<Bool>) -> Verify { return Verify(method: .p_loopMode_set(newValue)) }

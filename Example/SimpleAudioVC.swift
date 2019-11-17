@@ -35,7 +35,7 @@ final class SimpleAudioVC: UIViewController {
         mediaPicker.dataSource = self
         mediaPicker.delegate = self
 
-        player.load(media: dataSource[0].playerMedia, autostart: false)
+        player.load(media: dataSource[0].playerMediaFromItem!, autostart: false)
     }
 
     // MARK: - Commands
